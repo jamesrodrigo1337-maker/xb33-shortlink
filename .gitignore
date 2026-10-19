@@ -1,0 +1,9 @@
+# data runtime
+data/
+*.log
+node_modules/
+CNAME
+
+# env
+.env
+.env.*

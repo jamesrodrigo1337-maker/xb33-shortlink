@@ -1,0 +1,17 @@
+{
+  "name": "xb33-shortlink",
+  "version": "1.0.0",
+  "description": "XBumbbleB33 shortlink - anti-DDoS zero-dependency URL shortener + dashboard",
+  "main": "server.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node test.js"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}

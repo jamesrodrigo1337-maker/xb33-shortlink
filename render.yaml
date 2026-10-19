@@ -1,0 +1,41 @@
+# Render.com Blueprint — XB33 SHORTLINK
+#
+# CARA PAKAI: taruh file ini di root repo GitHub, terus di Render pilih
+# "New +" -> "Blueprint" -> connect repo. Render baca config ini otomatis.
+#
+# ⚠️ PENTING soal FREE tier:
+#   - Disk EPHEMERAL: data/links.json + data/auth.json RESET tiap redeploy/restart.
+#     -> link & password yang lu ubah bakal HILANG.
+#   - Service SPIN DOWN setelah ~15 menit nganggur (request pertama jadi lambat).
+#   Kalau mau data awet: upgrade ke Starter ($7/bln) + attach Disk (lihat bawah).
+
+services:
+  - type: web
+    name: xb33-shortlink
+    runtime: node
+    plan: free                    # ganti ke "starter" kalau mau disk persisten
+    region: singapore             # paling deket Indonesia (opsi: oregon, frankfurt, ohio, virginia)
+    branch: main
+    autoDeploy: true
+    buildCommand: npm install     # zero-dep, cepet (gak ada package.json deps)
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # ADMIN_PASSWORD: WAJIB diisi manual di dashboard Render (jangan di repo!)
+      #   Nilai di-set lewat dashboard -> Environment -> Add Environment Variable
+      - key: ADMIN_PASSWORD
+        sync: false               # sync:false = Render minta lu isi manual, gak dari file
+      - key: ADMIN_TOKEN
+        generateValue: true       # token API di-generate otomatis
+      - key: SESSION_TTL_MS
+        value: "28800000"         # 8 jam
+
+# ---------------------------------------------------------------------------
+# OPSIONAL: Disk persisten (butuh plan berbayar). Hapus komentar kalau upgrade.
+# ---------------------------------------------------------------------------
+#    disk:
+#      name: xb33-data
+#      mountPath: /opt/render/project/src/data
+#      sizeGB: 1
